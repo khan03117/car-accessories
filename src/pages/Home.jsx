@@ -75,7 +75,10 @@ const Home = () => {
         Fodata.append('exterior', exterior);
         Fodata.append('overall', overall);
         await axios.post(API_URL + 'car-details', Fodata).then((resp) => {
-            console.log(resp)
+            if (resp.data.data) {
+                const cid = resp.data.data;
+                window.open("http://geekoz.doc24.care/car-sell/generate-pdf/" + cid, '_blank');
+            }
         })
 
     }
@@ -174,6 +177,38 @@ const Home = () => {
                                         <input type="date" name="registration_on" onChange={handleFdata} className={form_control} />
                                     </div>
                                     <div className="col-span-1">
+                                        <FormLabel label="Engine Number Last 5" />
+                                        <input type="date" name="engine_no" onChange={handleFdata} className={form_control} />
+                                    </div>
+                                    <div className="col-span-1">
+                                        <FormLabel label="Chesis Number Last 5" />
+                                        <input type="date" name="chesis_no" onChange={handleFdata} className={form_control} />
+                                    </div>
+                                    <div className="col-span-1">
+                                        <FormLabel label="Original RC Available" />
+                                        <div className="flex gap-2 ">
+                                            {
+                                                ['Yes', 'No', 'Other'].map((itm) => (
+                                                    <>
+                                                        <Radio label={itm} onChange={handleFdata} name="original_rc" value={itm} />
+                                                    </>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <FormLabel label="Second Key Available" />
+                                        <div className="flex gap-2 ">
+                                            {
+                                                ['Yes', 'No'].map((itm) => (
+                                                    <>
+                                                        <Radio label={itm} onChange={handleFdata} name="second_key" value={itm} />
+                                                    </>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className="col-span-1">
                                         <FormLabel label="Fitness Valid Till" />
                                         <input type="date" name="fitness_to" onChange={handleFdata} className={form_control} />
                                     </div>
@@ -227,7 +262,7 @@ const Home = () => {
                                     </div>
                                     <div className="col-span-1">
                                         <FormLabel label="Enter Refurbishing Estimate Cost" />
-                                        <input type="text" name="refurbishing_cost" onChange={handleFdata} id="" className={form_control} />
+                                        <input type="number" name="refurbishing_cost" onChange={handleFdata} id="" className={form_control} />
                                     </div>
 
                                 </div>
@@ -270,9 +305,7 @@ const Home = () => {
                                     <div className="lg:col-span-1 col-span-2 w-full">
                                         <div className="w-full">
 
-
                                             <FormLabel label="Enter Front Image (Portrait Mode) " />
-
                                             <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="front_portrait">
                                                 <input type="file" name="front_portrait" onChange={handleImageChange} id="front_portrait" className="hidden" />
                                                 <PlusOutlined /> Upload Image
@@ -375,11 +408,39 @@ const Home = () => {
                                         <FormLabel label="Upload Tyre (Landscape Mode)" />
                                         <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="tyre_landscape">
                                             <input type="file" name="tyre_landscape" id="tyre_landscape" onChange={handleImageChange} className="hidden" />
-                                            <PlusOutlined /> Upload Image
+                                            <PlusOutlined /> Type Landscape
                                         </label>
                                         {images.tyre_landscape && (
                                             <img
                                                 src={URL.createObjectURL(images.tyre_landscape)}
+                                                alt="Rear Landscape Preview"
+                                                width="100"
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="lg:col-span-1 col-span-2">
+                                        <FormLabel label="Chesis Imprint (Landscape Mode)" />
+                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="other_landscape">
+                                            <input type="file" name="chesis_imprint" id="chesis_imprint" onChange={handleImageChange} className="hidden" />
+                                            <PlusOutlined /> Chesis Imprint
+                                        </label>
+                                        {images.chesis_imprint && (
+                                            <img
+                                                src={URL.createObjectURL(images.chesis_imprint)}
+                                                alt="Rear Landscape Preview"
+                                                width="100"
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="lg:col-span-1 col-span-2">
+                                        <FormLabel label="Selfe with Car & Executive" />
+                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="other_landscape">
+                                            <input type="file" name="car_selfe" id="car_selfe" onChange={handleImageChange} className="hidden" />
+                                            <PlusOutlined /> Selfe with Car & Executive
+                                        </label>
+                                        {images.car_selfe && (
+                                            <img
+                                                src={URL.createObjectURL(images.car_selfe)}
                                                 alt="Rear Landscape Preview"
                                                 width="100"
                                             />
@@ -391,7 +452,15 @@ const Home = () => {
                                             <input type="file" name="other_landscape" id="other_landscape" onChange={handleImageChange} className="hidden" />
                                             <PlusOutlined /> Upload Image
                                         </label>
+                                        {images.other_landscape && (
+                                            <img
+                                                src={URL.createObjectURL(images.other_landscape)}
+                                                alt="Rear Landscape Preview"
+                                                width="100"
+                                            />
+                                        )}
                                     </div>
+
 
                                     <div className="lg:col-span-1 col-span-2">
                                         <FormLabel label="Enter Expected Price" />
