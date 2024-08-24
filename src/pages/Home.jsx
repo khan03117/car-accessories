@@ -114,7 +114,7 @@ const Home = () => {
         await axios.post(API_URL + 'car-details', Fodata).then((resp) => {
             if (resp.data.data) {
                 const cid = resp.data.data;
-                window.open("http://geekoz.doc24.care/car-sell/generate-pdf/" + cid, '_blank');
+                window.open("https://form.carexpertindia.com/generate-pdf/" + cid, '_blank');
             }
         })
 
