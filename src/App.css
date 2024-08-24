@@ -10,3 +10,6 @@ label.select-none{
     font-size: 14px;
     font-weight: 600;
 }
+.react-date-picker__wrapper{
+    border-color: #fff;
+}

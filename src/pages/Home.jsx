@@ -24,6 +24,19 @@ const Home = () => {
     const [mname, setMname] = React.useState('');
     const [bodytype, setBodyType] = React.useState('');
     const [colors, setColors] = React.useState([]);
+    const [clr, setClr] = React.useState('');
+    const handleColor = (e) => {
+        const val = e.target.value;
+        setClr(val);
+        if (val != "other") {
+            setFdata((prev) => {
+                return {
+                    ...prev,
+                    ['vehicle_color']: val
+                };
+            });
+        }
+    }
 
     const getcolors = async () => {
         const item = await axios.get(API_URL + 'car-colors');
@@ -127,11 +140,25 @@ const Home = () => {
             if (resp.data.data) {
                 setLoading(false)
                 const cid = resp.data.data;
-                window.open("https://form.carexpertindia.com/generate-pdf/" + cid, '_blank');
+                window.open("https://form.carexpertindia.com/admin/generate-pdf/" + cid, '_blank');
             }
         })
 
     }
+    const imagesarr = [
+        'front_portrait',
+        'left_quarter_panel',
+        'left_image',
+        'rear_image',
+        'right_quarter_panel',
+        'right_image',
+        'interior_landscape',
+        'odometer_landscape',
+        'engine_landscape',
+        'tyre_landscape',
+        'chesis_imprint',
+        'car_selfe'
+    ];
     return (
         <>
             {
@@ -336,7 +363,7 @@ const Home = () => {
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Vehicle Color" />
-                                                        <select name="vehicle_color" id="vehicle_color" onChange={handleFdata} className={form_control}>
+                                                        <select onChange={handleColor} className={form_control}>
                                                             <option value="">---Select---</option>
                                                             {
                                                                 colors.map((itm) => (
@@ -345,8 +372,18 @@ const Home = () => {
                                                                     </>
                                                                 ))
                                                             }
+                                                            <option value="other">other</option>
                                                         </select>
-                                                        {/* <input type="text" name="vehicle_color" onChange={handleFdata} className={form_control} /> */}
+                                                        {
+                                                            clr == "other" && (
+                                                                <>
+                                                                    <div className="w-full mt-3">
+                                                                        <input type="text" placeholder="Enter custom color" name="vehicle_color" onChange={handleFdata} className={form_control} />
+                                                                    </div>
+                                                                </>
+                                                            )
+                                                        }
+
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Odometer" />
@@ -446,200 +483,30 @@ const Home = () => {
                                                             Photos
                                                         </div>
                                                     </div>
-                                                    <div className="lg:col-span-1 col-span-2 w-full">
-                                                        <div className="w-full">
-                                                            <FormLabel label="Enter Front Image (Portrait Mode) " />
-                                                            <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="front_portrait">
-                                                                <input type="file" name="front_portrait" onChange={handleImageChange} id="front_portrait" className="hidden" />
-                                                                <PlusOutlined /> Front Image
-                                                            </label>
-                                                            {images.front_portrait && (
-                                                                <img
-                                                                    src={URL.createObjectURL(images.front_portrait)}
-                                                                    alt="Rear Landscape Preview"
-                                                                    width="100"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2 w-full">
-                                                        <div className="w-full">
-                                                            <FormLabel label="Left Quarter Image (Portrait Mode) " />
-                                                            <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                                htmlFor="left_quarter_panel">
-                                                                <input type="file" name="left_quarter_panel" onChange={handleImageChange} id="left_quarter_panel" className="hidden" />
-                                                                <PlusOutlined /> Left Quarter Panel
-                                                            </label>
-                                                            {images.left_quarter_panel && (
-                                                                <img
-                                                                    src={URL.createObjectURL(images.left_quarter_panel)}
-                                                                    alt="Rear Landscape Preview"
-                                                                    width="100"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2 w-full">
-                                                        <div className="w-full">
-                                                            <FormLabel label="Left  Image (Portrait Mode) " />
-                                                            <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                                htmlFor="left_image">
-                                                                <input type="file" name="left_image" onChange={handleImageChange} id="left_image" className="hidden" />
-                                                                <PlusOutlined /> Left  Image
-                                                            </label>
-                                                            {images.left_image && (
-                                                                <img
-                                                                    src={URL.createObjectURL(images.left_image)}
-                                                                    alt="Rear Landscape Preview"
-                                                                    width="100"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Upload Rear  Image (Landscape  Mode) " />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                            htmlFor="rear_image">
-                                                            <input type="file" name="rear_image" id="rear_image" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Upload Rear Image
-                                                        </label>
-                                                        {images.rear_image && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.rear_image)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2 w-full">
-                                                        <div className="w-full">
-                                                            <FormLabel label="Right Quarter Image (Portrait Mode) " />
-                                                            <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                                htmlFor="right_quarter_panel">
-                                                                <input type="file" name="right_quarter_panel" onChange={handleImageChange} id="right_quarter_panel" className="hidden" />
-                                                                <PlusOutlined /> Right Quarter Panel
-                                                            </label>
-                                                            {images.right_quarter_panel && (
-                                                                <img
-                                                                    src={URL.createObjectURL(images.right_quarter_panel)}
-                                                                    alt="Rear Landscape Preview"
-                                                                    width="100"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2 w-full">
-                                                        <div className="w-full">
-                                                            <FormLabel label="Right  Image (Portrait Mode) " />
-                                                            <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                                htmlFor="right_image">
-                                                                <input type="file" name="right_image" onChange={handleImageChange} id="right_image" className="hidden" />
-                                                                <PlusOutlined /> Right Image
-                                                            </label>
-                                                            {images.right_image && (
-                                                                <img
-                                                                    src={URL.createObjectURL(images.right_image)}
-                                                                    alt="Rear Landscape Preview"
-                                                                    width="100"
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Upload Interior Image (Landscape Mode)" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                            htmlFor="interior_landscape">
-                                                            <input type="file" name="interior_landscape" id="interior_landscape" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Upload Interior Image
-                                                        </label>
-                                                        {images.interior_landscape && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.interior_landscape)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Upload Odometer (Landscape Mode)" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="odometer_landscape">
-                                                            <input type="file" name="odometer_landscape" id="odometer_landscape" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Upload Odometer Image
-                                                        </label>
-                                                        {images.odometer_landscape && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.odometer_landscape)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
+                                                    {
+                                                        imagesarr.map((img) => (
+                                                            <>
+                                                                <div className="lg:col-span-1 col-span-2 w-full">
+                                                                    <div className="w-full">
+                                                                        <FormLabel label={'Upload ' + img.split('_').join(' ')} />
+                                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
+                                                                            htmlFor={img}>
+                                                                            <input type="file" name={img} onChange={handleImageChange} id={img} className="hidden" />
+                                                                            <PlusOutlined /> {img.split('_').join(' ')}
+                                                                        </label>
+                                                                        {images[img] && (
+                                                                            <img className="w-full"
+                                                                                src={URL.createObjectURL(images[img])}
+                                                                                alt={img}
 
+                                                                            />
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        ))
+                                                    }
 
-
-
-
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Upload Engine Image (Landscape Mode)" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10" htmlFor="engine_landscape">
-                                                            <input type="file" name="engine_landscape" id="engine_landscape" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Upload Engine Image
-                                                        </label>
-                                                        {images.engine_landscape && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.engine_landscape)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
-
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Upload Tyre (Landscape Mode)" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                            htmlFor="tyre_landscape">
-                                                            <input type="file" name="tyre_landscape" id="tyre_landscape" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Tyre Landscape
-                                                        </label>
-                                                        {images.tyre_landscape && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.tyre_landscape)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
-
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Chesis Imprint (Landscape Mode)" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                            htmlFor="chesis_imprint">
-                                                            <input type="file" name="chesis_imprint" id="chesis_imprint" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Chesis Imprint
-                                                        </label>
-                                                        {images.chesis_imprint && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.chesis_imprint)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                    <div className="lg:col-span-1 col-span-2">
-                                                        <FormLabel label="Selfe with Car & Executive" />
-                                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                                            htmlFor="car_selfe">
-                                                            <input type="file" name="car_selfe" id="car_selfe" onChange={handleImageChange} className="hidden" />
-                                                            <PlusOutlined /> Selfe with Car & Executive
-                                                        </label>
-                                                        {images.car_selfe && (
-                                                            <img
-                                                                src={URL.createObjectURL(images.car_selfe)}
-                                                                alt="Rear Landscape Preview"
-                                                                width="100"
-                                                            />
-                                                        )}
-                                                    </div>
                                                     {
                                                         [...Array(others)].map((a, index) => (
                                                             <>
@@ -654,7 +521,7 @@ const Home = () => {
                                                                         <img
                                                                             src={URL.createObjectURL(images['other_landscape' + index])}
                                                                             alt="Rear Landscape Preview"
-                                                                            width="100"
+                                                                            className="w-full"
                                                                         />
                                                                     )}
                                                                 </div>
