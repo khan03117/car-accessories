@@ -6,6 +6,9 @@ import '@smastrom/react-rating/style.css'
 import React from "react"
 import { PlusOutlined } from "@ant-design/icons"
 import axios from "axios"
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 
 const Home = () => {
@@ -21,6 +24,7 @@ const Home = () => {
     const [mname, setMname] = React.useState('');
     const [bodytype, setBodyType] = React.useState('');
     const [colors, setColors] = React.useState([]);
+
     const getcolors = async () => {
         const item = await axios.get(API_URL + 'car-colors');
         setColors(item.data.data);
@@ -92,6 +96,12 @@ const Home = () => {
                 [e.target.name]: e.target.value
             };
         });
+    };
+    const handleDateChange = (name, date) => {
+        setFdata((prev) => ({
+            ...prev,
+            [name]: date,
+        }));
     };
     const handleOtherImage = () => {
         setOthers(others + 1)
@@ -247,7 +257,11 @@ const Home = () => {
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Date Of Registration" />
-                                                        <input type="date" name="registration_on" onChange={handleFdata} className={form_control} required />
+                                                        {/* <input type="date" name="registration_on" onChange={handleFdata} className={form_control} required /> */}
+                                                        <DatePicker format="y-MM-dd" className={form_control}
+                                                            onChange={(date) => handleDateChange('registration_on', date)}
+                                                            value={fdata?.registration_on}
+                                                        />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Engine Number Last 5" />
@@ -283,24 +297,42 @@ const Home = () => {
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Fitness Valid Till" />
-                                                        <input type="date" name="fitness_to" onChange={handleFdata} className={form_control} required />
+
+                                                        <DatePicker className={form_control} format="y-MM-dd"
+                                                            onChange={(date) => handleDateChange('fitness_to', date)}
+                                                            value={fdata?.fitness_to}
+                                                        />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Tax Valid Till" />
-                                                        <input type="date" name="tax_valid_to" onChange={handleFdata} className={form_control} required />
+                                                        {/* <input type="date" name="tax_valid_to" onChange={handleFdata} className={form_control} required /> */}
+                                                        <DatePicker className={form_control} format="y-MM-dd"
+                                                            onChange={(date) => handleDateChange('tax_valid_to', date)}
+                                                            value={fdata?.tax_valid_to}
+                                                        />
                                                     </div>
 
                                                     <div className="col-span-1">
                                                         <FormLabel label="Insurance  Valid Till" />
-                                                        <input type="date" name="insurance_valid_to" onChange={handleFdata} className={form_control} required />
+                                                        {/* <input type="date" name="insurance_valid_to" onChange={handleFdata} className={form_control} required /> */}
+                                                        <DatePicker className={form_control} format="y-MM-dd"
+                                                            onChange={(date) => handleDateChange('insurance_valid_to', date)}
+                                                            value={fdata?.insurance_valid_to}
+                                                        />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Permit Valid Till" />
-                                                        <input type="date" name="permit_valid_to" onChange={handleFdata} className={form_control} required />
+                                                        {/* <input type="date" name="permit_valid_to" onChange={handleFdata} className={form_control} required /> */}
+                                                        <DatePicker className={form_control} format="y-MM-dd"
+                                                            onChange={(date) => handleDateChange('permit_valid_to', date)}
+                                                            value={fdata?.permit_valid_to}
+                                                        />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter RTO City" />
+
                                                         <input type="text" name="rto_city" onChange={handleFdata} className={form_control} required />
+
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Vehicle Color" />
