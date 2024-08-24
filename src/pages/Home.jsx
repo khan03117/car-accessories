@@ -1,6 +1,6 @@
 import { Radio } from "@material-tailwind/react"
 import FormLabel from "../elements/FormLabel"
-import { API_URL, form_control } from "../utils"
+import { API_URL, btn, form_control } from "../utils"
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import React from "react"
@@ -16,6 +16,7 @@ const Home = () => {
     const [overall, setOverall] = React.useState(0);
     const [models, setModels] = React.useState([]);
     const [btypes, setBtype] = React.useState([]);
+    const [others, setOthers] = React.useState(1);
     const getbtyeps = async () => {
         const items = await axios.get(API_URL + 'car-body');
         setBtype(items.data.data);
@@ -59,6 +60,9 @@ const Home = () => {
             };
         });
     };
+    const handleOtherImage = () => {
+        setOthers(others + 1)
+    }
     const submitForm = async () => {
         const Fodata = new FormData();
         Object.entries(fdata).forEach(([key, value]) => {
@@ -494,22 +498,31 @@ const Home = () => {
                                             />
                                         )}
                                     </div>
-
-                                    <div className="lg:col-span-1 col-span-2">
-                                        <FormLabel label="Upload Other (Landscape Mode)" />
-                                        <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
-                                            htmlFor="other_landscape">
-                                            <input type="file" name="other_landscape" id="other_landscape" onChange={handleImageChange} className="hidden" />
-                                            <PlusOutlined /> Upload Other Image
-                                        </label>
-                                        {images.other_landscape && (
-                                            <img
-                                                src={URL.createObjectURL(images.other_landscape)}
-                                                alt="Rear Landscape Preview"
-                                                width="100"
-                                            />
-                                        )}
+                                    {
+                                        [...Array(others)].map((a, index) => (
+                                            <>
+                                                <div key={a} className="lg:col-span-1 col-span-2">
+                                                    <FormLabel label="Upload Other (Landscape Mode)" />
+                                                    <label className="border border-primary text-center text-sm uppercase leading-10 text-primary block w-full border-dashed rounded min-h-10"
+                                                        htmlFor={'other_landscape' + index}>
+                                                        <input type="file" name={'other_landscape' + index} id={'other_landscape' + index} onChange={handleImageChange} className="hidden" />
+                                                        <PlusOutlined /> Upload Other Image
+                                                    </label>
+                                                    {images['other_landscape' + index] && (
+                                                        <img
+                                                            src={URL.createObjectURL(images['other_landscape' + index])}
+                                                            alt="Rear Landscape Preview"
+                                                            width="100"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </>
+                                        ))
+                                    }
+                                    <div className="lg:col-span-2 col-span-2">
+                                        <button onClick={handleOtherImage} className={btn}>Add More</button>
                                     </div>
+
 
 
                                     <div className="lg:col-span-1 col-span-2">
