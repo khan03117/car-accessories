@@ -9,6 +9,7 @@ import axios from "axios"
 import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
+import ErrorSpan from "../elements/ErrorSpan"
 
 
 const Home = () => {
@@ -26,6 +27,8 @@ const Home = () => {
     const [colors, setColors] = React.useState([]);
     const [clr, setClr] = React.useState('');
     const [fules, setFules] = React.useState([]);
+    const [errors, setErrors] = React.useState([]);
+
     const getfules = async () => {
         const item = await axios.get(API_URL + 'car-fules');
         setFules(item.data.data);
@@ -125,8 +128,118 @@ const Home = () => {
     const handleOtherImage = () => {
         setOthers(others + 1)
     }
+    const validation = () => {
+        const err = [];
+        if (!engine) {
+            err.push({
+                path: "engine",
+                msg: "Engine rating is required"
+            })
+        }
+        if (!tyre) {
+            err.push({
+                path: "tyre",
+                msg: "Tyre rating is required"
+            })
+        }
+        if (!interior) {
+            err.push({
+                path: "interior",
+                msg: "Interior rating is required"
+            })
+        }
+        if (!exterior) {
+            err.push({
+                path: "exterior",
+                msg: "Exterior rating is required"
+            })
+        }
+        if (!overall) {
+            err.push({
+                path: "overall",
+                msg: "Overall rating is required"
+            })
+        }
+        if (!fdata?.registration_on) {
+            err.push({
+                path: "registration_on",
+                msg: "Registration Date is required"
+            })
+        }
+        if (!fdata?.second_key) {
+            err.push({
+                path: "second_key",
+                msg: "Second Key  is required"
+            })
+        }
+        if (!fdata?.original_rc) {
+            err.push({
+                path: "original_rc",
+                msg: "original rc  is required"
+            })
+        }
+        if (!fdata?.transmission) {
+            err.push({
+                path: "transmission",
+                msg: "Transmission  is required"
+            })
+        }
+        if (!fdata?.no_of_owners) {
+            err.push({
+                path: "no_of_owners",
+                msg: "No of Owner  is required"
+            })
+        }
+        if (!fdata?.hypothecation) {
+            err.push({
+                path: "hypothecation",
+                msg: "Hypothecation  is required"
+            })
+        }
+        if (!fdata?.fuel) {
+            err.push({
+                path: "fuel",
+                msg: "Fuel  is required"
+            })
+        }
+        if (!fdata?.fitness_to) {
+            err.push({
+                path: "fitness_to",
+                msg: "Fitness_to  is required"
+            })
+        }
+        if (!fdata?.tax_valid_to) {
+            err.push({
+                path: "tax_valid_to",
+                msg: "tax_valid_to  is required"
+            })
+        }
+        if (!fdata?.permit_valid_to) {
+            err.push({
+                path: "permit_valid_to",
+                msg: "permit_valid_to  is required"
+            })
+        }
+        if (!fdata?.insurance_valid_to) {
+            err.push({
+                path: "insurance_valid_to",
+                msg: "insurance_valid_to  is required"
+            })
+        }
+        if (err.length > 0) {
+            setErrors(err);
+            console.log(err)
+            return false;
+        } else {
+            return true;
+        }
+    }
     const submitForm = async (e) => {
         e.preventDefault();
+        if (!validation()) {
+            console.log(errors)
+            return false;
+        }
         setLoading(true)
         const Fodata = new FormData();
         Object.entries(fdata).forEach(([key, value]) => {
@@ -226,6 +339,7 @@ const Home = () => {
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Registration Number" />
                                                         <input type="text" name="registration_no" onChange={handleFdata} className={form_control} required />
+                                                        <ErrorSpan errors={errors} path="registration_no" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Select Model" />
@@ -295,10 +409,12 @@ const Home = () => {
                                                             onChange={(date) => handleDateChange('registration_on', date)}
                                                             value={fdata?.registration_on}
                                                         />
+                                                        <ErrorSpan errors={errors} path="registration_on" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Engine Number Last 5" />
                                                         <input type="text" maxLength={5} name="engine_no" onChange={handleFdata} className={form_control} required />
+                                                        <ErrorSpan errors={errors} path="engine_no" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Chesis Number Last 5" />
@@ -315,6 +431,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="original_rc" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Second Key Available" />
@@ -327,6 +444,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="second_key" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Fitness Valid Till" />
@@ -335,6 +453,7 @@ const Home = () => {
                                                             onChange={(date) => handleDateChange('fitness_to', date)}
                                                             value={fdata?.fitness_to}
                                                         />
+                                                        <ErrorSpan errors={errors} path="fitness_to" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Tax Valid Till" />
@@ -343,6 +462,7 @@ const Home = () => {
                                                             onChange={(date) => handleDateChange('tax_valid_to', date)}
                                                             value={fdata?.tax_valid_to}
                                                         />
+                                                        <ErrorSpan errors={errors} path="tax_valid_to" />
                                                     </div>
 
                                                     <div className="col-span-1">
@@ -352,6 +472,7 @@ const Home = () => {
                                                             onChange={(date) => handleDateChange('insurance_valid_to', date)}
                                                             value={fdata?.insurance_valid_to}
                                                         />
+                                                        <ErrorSpan errors={errors} path="insurance_valid_to" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Permit Valid Till" />
@@ -360,6 +481,7 @@ const Home = () => {
                                                             onChange={(date) => handleDateChange('permit_valid_to', date)}
                                                             value={fdata?.permit_valid_to}
                                                         />
+                                                        <ErrorSpan errors={errors} path="permit_valid_to" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter RTO City" />
@@ -410,6 +532,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="hypothecation" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Select Transmission Status" />
@@ -422,6 +545,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="transmission" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Select Fule type" />
@@ -434,6 +558,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="fuel" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Select Accidental Status" />
@@ -446,6 +571,7 @@ const Home = () => {
                                                                 ))
                                                             }
                                                         </div>
+                                                        <ErrorSpan errors={errors} path="accident" />
                                                     </div>
 
                                                     <div className="col-span-1">
@@ -464,22 +590,27 @@ const Home = () => {
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Engine Condition" />
                                                         <Rating className="max-w-full w-full" halfFillMode={'svg'} items={10} value={engine} onChange={setEngine} />
+                                                        <ErrorSpan errors={errors} path="engine" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Tyre Condition" />
                                                         <Rating className="max-w-full w-full" halfFillMode={'svg'} items={10} value={tyre} onChange={setType} />
+                                                        <ErrorSpan errors={errors} path="tyre" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Interior Condition" />
                                                         <Rating className="max-w-full w-full" halfFillMode={'svg'} items={10} value={interior} onChange={setInterior} />
+                                                        <ErrorSpan errors={errors} path="interior" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Exterior  Condition" />
                                                         <Rating className="max-w-full w-full" halfFillMode={'svg'} items={10} value={exterior} onChange={setExterior} />
+                                                        <ErrorSpan errors={errors} path="exterior" />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Overall  Condition" />
                                                         <Rating className="max-w-full w-full" halfFillMode={'svg'} items={10} value={overall} onChange={setOverall} />
+                                                        <ErrorSpan errors={errors} path="overall" />
                                                     </div>
                                                 </div>
 
@@ -507,6 +638,7 @@ const Home = () => {
 
                                                                             />
                                                                         )}
+                                                                        <ErrorSpan errors={errors} path={img} />
                                                                     </div>
                                                                 </div>
                                                             </>
