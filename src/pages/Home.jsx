@@ -304,7 +304,7 @@ const Home = () => {
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Vehicle Color" />
-                                                        <select name="vehicle_color" id="vehicle_color" className={form_control}>
+                                                        <select name="vehicle_color" id="vehicle_color" onChange={handleFdata} className={form_control}>
                                                             <option value="">---Select---</option>
                                                             {
                                                                 colors.map((itm) => (
