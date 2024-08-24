@@ -25,6 +25,11 @@ const Home = () => {
     const [bodytype, setBodyType] = React.useState('');
     const [colors, setColors] = React.useState([]);
     const [clr, setClr] = React.useState('');
+    const [fules, setFules] = React.useState([]);
+    const getfules = async () => {
+        const item = await axios.get(API_URL + 'car-fules');
+        setFules(item.data.data);
+    }
     const handleColor = (e) => {
         const val = e.target.value;
         setClr(val);
@@ -78,6 +83,7 @@ const Home = () => {
         getmodels();
         getbtyeps();
         getcolors();
+        getfules();
     }, []);
 
     const [fdata, setFdata] = React.useState({});
@@ -421,9 +427,9 @@ const Home = () => {
                                                         <FormLabel label="Select Fule type" />
                                                         <div className="flex gap-2 flex-wrap">
                                                             {
-                                                                ['Petrol', 'CNG', 'Diesel', 'Electric'].map((itm) => (
+                                                                fules.map((itm) => (
                                                                     <>
-                                                                        <Radio label={itm} name="fuel" onChange={handleFdata} value={itm} />
+                                                                        <Radio label={itm.fuel} name="fuel" onChange={handleFdata} value={itm.fuel} />
                                                                     </>
                                                                 ))
                                                             }

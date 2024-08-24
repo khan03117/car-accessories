@@ -11,5 +11,5 @@ label.select-none{
     font-weight: 600;
 }
 .react-date-picker__wrapper{
-    border-color: #fff;
+    border-color: #fff !important;
 }
