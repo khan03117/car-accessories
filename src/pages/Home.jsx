@@ -19,6 +19,11 @@ const Home = () => {
     const [others, setOthers] = React.useState(1);
     const [mname, setMname] = React.useState('');
     const [bodytype, setBodyType] = React.useState('');
+    const [colors, setColors] = React.useState([]);
+    const getcolors = async () => {
+        const item = await axios.get(API_URL + 'car-colors');
+        setColors(item.data.data);
+    }
     const handleModelName = (e) => {
         const mn = e.target.value;
         setMname(mn);
@@ -54,6 +59,7 @@ const Home = () => {
     React.useEffect(() => {
         getmodels();
         getbtyeps();
+        getcolors();
     }, []);
 
     const [fdata, setFdata] = React.useState({});
@@ -284,7 +290,17 @@ const Home = () => {
                                         </div>
                                         <div className="col-span-1">
                                             <FormLabel label="Enter Vehicle Color" />
-                                            <input type="text" name="vehicle_color" onChange={handleFdata} className={form_control} />
+                                            <select name="vehicle_color" id="vehicle_color" className={form_control}>
+                                                <option value="">---Select---</option>
+                                                {
+                                                    colors.map((itm) => (
+                                                        <>
+                                                            <option value={itm.color}>{itm.color}</option>
+                                                        </>
+                                                    ))
+                                                }
+                                            </select>
+                                            {/* <input type="text" name="vehicle_color" onChange={handleFdata} className={form_control} /> */}
                                         </div>
                                         <div className="col-span-1">
                                             <FormLabel label="Enter Odometer" />
