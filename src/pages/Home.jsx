@@ -259,22 +259,23 @@ const Home = () => {
             if (resp.data.data) {
                 setLoading(false)
                 const cid = resp.data.data;
+                setImages({});
                 window.open("https://form.carexpertindia.com/admin/generate-pdf/" + cid, '_blank');
             }
         })
 
     }
     const imagesarr = [
-        'front_portrait',
+        'front_image',
         'left_quarter_panel',
         'left_image',
         'rear_image',
         'right_quarter_panel',
         'right_image',
-        'interior_landscape',
-        'odometer_landscape',
-        'engine_landscape',
-        'tyre_landscape',
+        'interior_image',
+        'odometer_image',
+        'engine_image',
+        'tyre_image',
         'chesis_imprint',
         'car_selfe'
     ];
