@@ -266,18 +266,20 @@ const Home = () => {
 
     }
     const imagesarr = [
-        'front_image',
-        'left_quarter_panel',
-        'left_image',
-        'rear_image',
-        'right_quarter_panel',
-        'right_image',
-        'interior_image',
-        'odometer_image',
-        'engine_image',
-        'tyre_image',
-        'chesis_imprint',
-        'car_selfe'
+        'front_photo',
+        'front_right_corner_photo',
+        'right_photo',
+        'rear_right_corner_photo',
+        'rear_photo',
+        'rear_left_corner_photo',
+        'left_photo',
+        'front_left_corner_photo',
+        'odometer_photo',
+        'interior_photo',
+        'engine_photo',
+        'tyre_photo',
+        'chesis_photo',
+        'selfe_with_car_photo'
     ];
     return (
         <>
