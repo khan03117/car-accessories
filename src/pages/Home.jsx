@@ -288,6 +288,11 @@ const Home = () => {
                     <>
                         <section className="p-10">
                             <img src="https://cdn.dribbble.com/users/1726478/screenshots/3636280/gif-1.gif" alt="" className="max-w-full mx-auto" />
+                            <div className="w-100 p-10">
+                                <p className="text-sm">
+                                    Your pdf is being generated. Please wait...
+                                </p>
+                            </div>
                         </section>
 
                     </>
@@ -509,7 +514,7 @@ const Home = () => {
                                                             clr == "other" && (
                                                                 <>
                                                                     <div className="w-full mt-3">
-                                                                        <input type="text" placeholder="Enter custom color" name="vehicle_color" onChange={handleFdata} className={form_control} />
+                                                                        <input type="text" placeholder="Enter custom color" name="vehicle_color" onChange={handleFdata} className={form_control} required />
                                                                     </div>
                                                                 </>
                                                             )
@@ -518,7 +523,7 @@ const Home = () => {
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter Odometer" />
-                                                        <input type="text" name="odometer" onChange={handleFdata} className={form_control} />
+                                                        <input type="text" name="odometer" onChange={handleFdata} className={form_control} required />
                                                     </div>
                                                     <div className="col-span-1">
                                                         <FormLabel label="Enter No of Owners" />
@@ -681,7 +686,8 @@ const Home = () => {
                                                     </div>
                                                     <div className="lg:col-span-2 col-span-2">
                                                         <FormLabel label="Enter Remark" />
-                                                        <input type="text" name="remark" onChange={handleFdata} className={form_control} />
+                                                        <textarea name="remark" id="remark" onChange={handleFdata} className={form_control}></textarea>
+
                                                     </div>
                                                     <div className="lg:col-span-2 col-span-2">
                                                         <button type="submit" className="bg-primary text-xs uppercase  font-y tracking-wider shadow-sm shadow-secondary text-white px-5 rounded py-3 lg:w-fit w-full mt-5"> Submit</button>
