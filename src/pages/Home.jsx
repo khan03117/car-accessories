@@ -237,6 +237,7 @@ const Home = () => {
     const submitForm = async (e) => {
         e.preventDefault();
         if (!validation()) {
+            window.scrollTo(0, 0);
             console.log(errors)
             return false;
         }
